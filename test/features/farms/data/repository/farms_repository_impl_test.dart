@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pontaagro/core/data/database/sql_script.dart';
+import 'package:pontaagro/core/data/errors/db_exception.dart';
 import 'package:pontaagro/features/farms/data/models/farms_model.dart';
 import 'package:pontaagro/features/farms/data/repository/farms_repository_impl.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -54,5 +55,49 @@ void main() {
   test('Should update a farm', () async {
     final result = await mockFarmsRepositoryImpl.updateFarm(farmsModelTest);
     expect(result, 1);
+  });
+
+  test('Should return DbException when create farm', () async {
+    void mockDeleteError() {
+      when(mockFarmsRepositoryImpl.createFarm(farmsModelTest))
+          .thenThrow(const DbException(message: 'Error'));
+    }
+
+    mockDeleteError();
+    expect(() => mockFarmsRepositoryImpl.createFarm(farmsModelTest),
+        throwsA(const DbException(message: 'Error')));
+  });
+
+  test('Should return DbException when delete farm', () async {
+    void mockDeleteError() {
+      when(mockFarmsRepositoryImpl.deleteFarm(1))
+          .thenThrow(const DbException(message: 'Error'));
+    }
+
+    mockDeleteError();
+    expect(() => mockFarmsRepositoryImpl.deleteFarm(1),
+        throwsA(const DbException(message: 'Error')));
+  });
+
+  test('Should return DbException when update farm', () async {
+    void mockDeleteError() {
+      when(mockFarmsRepositoryImpl.updateFarm(farmsModelTest))
+          .thenThrow(const DbException(message: 'Error'));
+    }
+
+    mockDeleteError();
+    expect(() => mockFarmsRepositoryImpl.updateFarm(farmsModelTest),
+        throwsA(const DbException(message: 'Error')));
+  });
+
+  test('Should return DbException when get farms', () async {
+    void mockDeleteError() {
+      when(mockFarmsRepositoryImpl.getFarms())
+          .thenThrow(const DbException(message: 'Error'));
+    }
+
+    mockDeleteError();
+    expect(() => mockFarmsRepositoryImpl.getFarms(),
+        throwsA(const DbException(message: 'Error')));
   });
 }
