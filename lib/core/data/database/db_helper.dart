@@ -18,14 +18,6 @@ class DbHelper {
     _db ??= await _initializeDatabase();
     return _db!;
   }
-  // DbHelper._();
-  // static final DbHelper db = DbHelper._();
-  // static Database? _database;
-
-  // Future<Database> get database async {
-  //   if (_database != null) return _database!;
-  //   return await _initDb();
-  // }
 
   Future<Database> _initializeDatabase() async {
     return await openDatabase(
