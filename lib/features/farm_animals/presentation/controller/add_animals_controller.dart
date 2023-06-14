@@ -8,7 +8,7 @@ class AddAnimalsController extends Cubit<AddAnimalsState> {
 
   AddAnimalsController(
     this.createAnimalsListUseCase,
-  ) : super(const AddAnimalsState.initial());
+  ) : super(AddAnimalsState.initial());
 
   void addAnimalToList(AnimalsModel animal) {
     emit(state.copyWith(status: AddAnimalsStatus.loading));
@@ -32,7 +32,7 @@ class AddAnimalsController extends Cubit<AddAnimalsState> {
     }
   }
 
-  void updateAnimalFromList(AnimalsModel animal) {
+  Future<void> updateAnimalFromList(AnimalsModel animal) async {
     emit(state.copyWith(status: AddAnimalsStatus.loading));
     try {
       state.animals.removeWhere((element) => element.id == animal.id);
@@ -44,10 +44,11 @@ class AddAnimalsController extends Cubit<AddAnimalsState> {
     }
   }
 
-  Future<void> createAnimalsList() async {
+  Future<void> createAnimalsList(List<AnimalsModel> animals) async {
     emit(state.copyWith(status: AddAnimalsStatus.loading));
     try {
-      await createAnimalsListUseCase(state.animals);
+      await createAnimalsListUseCase.call(animals);
+      state.animals.clear();
       emit(state.copyWith(status: AddAnimalsStatus.success));
     } catch (_) {
       emit(state.copyWith(status: AddAnimalsStatus.error));

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:equatable/equatable.dart';
 import 'package:match/match.dart';
 import 'package:pontaagro/features/farm_animals/data/models/animals_model.dart';
@@ -9,16 +11,16 @@ enum AddAnimalsStatus { initial, loading, success, error }
 
 class AddAnimalsState extends Equatable {
   final AddAnimalsStatus status;
-  final List<AnimalsModel> animals;
+  List<AnimalsModel> animals = [];
 
-  const AddAnimalsState({
+  AddAnimalsState({
     required this.status,
     required this.animals,
   });
 
-  const AddAnimalsState.initial()
+  AddAnimalsState.initial()
       : status = AddAnimalsStatus.initial,
-        animals = const [];
+        animals = [];
 
   AddAnimalsState copyWith({
     AddAnimalsStatus? status,

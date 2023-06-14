@@ -6,6 +6,7 @@ import 'package:pontaagro/features/farm_animals/presentation/controller/farm_ani
 import 'package:pontaagro/features/farm_animals/presentation/controller/farm_animals_state.dart';
 import 'package:pontaagro/features/farm_animals/presentation/widgets/animal_tile.dart';
 import 'package:pontaagro/features/farms/data/models/farms_model.dart';
+import 'package:pontaagro/features/farms/presentation/controller/farms_controller.dart';
 
 class FarmAnimalsPage extends StatefulWidget {
   final FarmsModel farm;
@@ -21,33 +22,12 @@ class FarmAnimalsPage extends StatefulWidget {
 
 class _FarmAnimalsPageState
     extends BaseState<FarmAnimalsPage, FarmAnimalsController> {
-  // final animals = [
-  //   const AnimalsModel(
-  //     name: 'Vaca',
-  //     tag: '123456789',
-  //     farmId: 1,
-  //   ),
-  //   const AnimalsModel(
-  //     name: 'Vaca',
-  //     tag: '123456789',
-  //     farmId: 1,
-  //   ),
-  //   const AnimalsModel(
-  //     name: 'Vaca',
-  //     tag: '123456789',
-  //     farmId: 1,
-  //   ),
-  //   const AnimalsModel(
-  //     name: 'Vaca',
-  //     tag: '123456789',
-  //     farmId: 1,
-  //   ),
-  //   const AnimalsModel(
-  //     name: 'Vaca',
-  //     tag: '123456789',
-  //     farmId: 1,
-  //   ),
-  // ];
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    controller.getAnimalList(widget.farm.id!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,87 +55,99 @@ class _FarmAnimalsPageState
                 success: () => true,
               ),
           builder: (context, state) {
-            return state.status == FarmAnimalsStatus.loading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : state.status == FarmAnimalsStatus.error
-                    ? const Center(
-                        child: Text(
-                          'Erro ao carregar animais',
-                        ),
-                      )
-                    : state.animals.isEmpty
-                        ? Center(
-                            child: Text(
-                              'Nenhum animal cadastrado',
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: ListView.builder(
-                              itemCount: state.animals.length,
-                              itemBuilder: (context, index) {
-                                return AnimalTile(
-                                  canEdit: false,
-                                  animal: state.animals[index],
-                                  onDelete: () => showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: const Text('Excluir animal'),
-                                      content: Text(
-                                        'Deseja realmente excluir o animal?',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium,
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: Text(
-                                            'Não',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium!
-                                                .copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onSurface,
-                                                ),
-                                          ),
+            if (state.status == FarmAnimalsStatus.loading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              if (state.status == FarmAnimalsStatus.error) {
+                return const Center(
+                  child: Text(
+                    'Erro ao carregar animais',
+                  ),
+                );
+              } else {
+                if (state.animals.isEmpty) {
+                  context
+                      .read<FarmsController>()
+                      .updateQuantity(0, widget.farm);
+                  return Center(
+                    child: Text(
+                      'Nenhum animal cadastrado',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  );
+                } else {
+                  context
+                      .read<FarmsController>()
+                      .updateQuantity(state.animals.length, widget.farm);
+                  return Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: ListView.builder(
+                      itemCount: state.animals.length,
+                      itemBuilder: (context, index) {
+                        return AnimalTile(
+                          canEdit: false,
+                          animal: state.animals[index],
+                          onDelete: () => showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Excluir animal'),
+                              content: Text(
+                                'Deseja realmente excluir o animal?',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text(
+                                    'Não',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
                                         ),
-                                        SizedBox(
-                                          width: context.percentWidth(0.010),
-                                        ),
-                                        TextButton(
-                                          onPressed: () async {
-                                            await controller
-                                                .deleteAnimal(
-                                                    state.animals[index].id!)
-                                                .then((_) =>
-                                                    Navigator.pop(context));
-                                          },
-                                          child: Text(
-                                            'Sim',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium!
-                                                .copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .error,
-                                                ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
                                   ),
-                                );
-                              },
+                                ),
+                                SizedBox(
+                                  width: context.percentWidth(0.010),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    context
+                                        .read<FarmsController>()
+                                        .updateQuantity(
+                                            state.animals.length - 1,
+                                            widget.farm);
+                                    await controller
+                                        .deleteAnimal(state.animals[index].id!)
+                                        .then((_) => Navigator.pop(context));
+                                  },
+                                  child: Text(
+                                    'Sim',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .error,
+                                        ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }
+              }
+            }
           }),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
