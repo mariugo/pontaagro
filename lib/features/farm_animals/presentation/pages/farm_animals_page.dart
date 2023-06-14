@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pontaagro/core/extensions/size_extensions.dart';
 import 'package:pontaagro/features/farm_animals/data/models/animals_model.dart';
 import 'package:pontaagro/features/farm_animals/presentation/widgets/animal_tile.dart';
 
@@ -44,7 +45,7 @@ class _FarmAnimalsPageState extends State<FarmAnimalsPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         title: Text(
-          'PontAgro',
+          'Fazenda >> Animais ',
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
@@ -53,7 +54,43 @@ class _FarmAnimalsPageState extends State<FarmAnimalsPage> {
         child: ListView.builder(
           itemCount: animals.length,
           itemBuilder: (context, index) {
-            return AnimalTile(animal: animals[index]);
+            return AnimalTile(
+              canEdit: false,
+              animal: animals[index],
+              onDelete: () => showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Excluir animal'),
+                  content: Text(
+                    'Deseja realmente excluir o animal?',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(
+                        'Não',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: context.percentWidth(0.010),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text('Sim',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color: Theme.of(context).colorScheme.error)),
+                    ),
+                  ],
+                ),
+              ),
+            );
           },
         ),
       ),

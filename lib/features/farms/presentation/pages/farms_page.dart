@@ -46,106 +46,126 @@ class _FarmsPageState extends BaseState<FarmsPage, FarmsController> {
               color: Theme.of(context).colorScheme.secondaryContainer),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: BlocConsumer<FarmsController, FarmsState>(
-          listener: (context, state) {
-            state.status.matchAny(
-                any: () => hideLoader(),
-                loading: () => showLoader(),
-                error: () {
-                  hideLoader();
-                  showError('Erro ao carregar fazendas');
-                });
-          },
-          buildWhen: (previous, current) => current.status.matchAny(
-            any: () => false,
-            initial: () => true,
-            success: () => true,
-          ),
-          builder: (context, state) {
-            return state.status == FarmStatus.loading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : state.status == FarmStatus.error
-                    ? const Center(
-                        child: Text('Erro ao carregar fazendas'),
-                      )
-                    : state.farms.isEmpty
-                        ? Center(
-                            child: Text(
-                              'Nenhuma fazenda cadastrada',
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                          )
-                        : ListView.builder(
-                            itemCount: state.farms.length,
-                            itemBuilder: (context, index) {
-                              return FarmTile(
-                                farm: state.farms[index],
-                                onEdit: () => showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (context) => Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom),
-                                    child: FarmBottomSheet(
-                                      formKey: editFormKey,
-                                      farmNameController: editFarmName =
-                                          TextEditingController(
-                                              text: state.farms[index].name),
-                                      isEdit: true,
-                                      onSave: () async {
-                                        if (editFormKey.currentState!
-                                            .validate()) {
-                                          await controller
-                                              .updateFarm(FarmsModel(
-                                                  name: editFarmName.text,
-                                                  id: state.farms[index].id!))
-                                              .then((_) {
-                                            editFarmName.clear();
-                                            Navigator.pop(context);
-                                          });
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                onDelete: () => showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: const Text('Excluir fazenda'),
-                                    content: Text(
-                                      'Deseja realmente excluir a fazenda?',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text('Não'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () async {
-                                          await controller
-                                              .deleteFarm(
-                                                  state.farms[index].id!)
-                                              .then((_) =>
-                                                  Navigator.pop(context));
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: BlocConsumer<FarmsController, FarmsState>(
+            listener: (context, state) {
+              state.status.matchAny(
+                  any: () => hideLoader(),
+                  loading: () => showLoader(),
+                  error: () {
+                    hideLoader();
+                    showError('Erro ao carregar fazendas');
+                  });
+            },
+            buildWhen: (previous, current) => current.status.matchAny(
+              any: () => false,
+              initial: () => true,
+              success: () => true,
+            ),
+            builder: (context, state) {
+              return state.status == FarmStatus.loading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : state.status == FarmStatus.error
+                      ? const Center(
+                          child: Text('Erro ao carregar fazendas'),
+                        )
+                      : state.farms.isEmpty
+                          ? Center(
+                              child: Text(
+                                'Nenhuma fazenda cadastrada',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            )
+                          : ListView.builder(
+                              itemCount: state.farms.length,
+                              itemBuilder: (context, index) {
+                                return FarmTile(
+                                  farm: state.farms[index],
+                                  onEdit: () => showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (context) => Padding(
+                                      padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context)
+                                              .viewInsets
+                                              .bottom),
+                                      child: FarmBottomSheet(
+                                        formKey: editFormKey,
+                                        farmNameController: editFarmName =
+                                            TextEditingController(
+                                                text: state.farms[index].name),
+                                        isEdit: true,
+                                        onSave: () async {
+                                          if (editFormKey.currentState!
+                                              .validate()) {
+                                            await controller
+                                                .updateFarm(FarmsModel(
+                                                    name: editFarmName.text,
+                                                    id: state.farms[index].id!))
+                                                .then((_) {
+                                              editFarmName.clear();
+                                              Navigator.pop(context);
+                                            });
+                                          }
                                         },
-                                        child: const Text('Sim'),
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-          },
+                                  onDelete: () => showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text('Excluir fazenda'),
+                                      content: Text(
+                                        'Deseja realmente excluir a fazenda?',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text(
+                                            'Não',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onSurface,
+                                                ),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () async {
+                                            await controller
+                                                .deleteFarm(
+                                                    state.farms[index].id!)
+                                                .then((_) =>
+                                                    Navigator.pop(context));
+                                          },
+                                          child: Text('Sim',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .copyWith(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .error)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+            },
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
