@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pontaagro/config/router/add_animals_page_router.dart';
 import 'package:pontaagro/config/router/farms_animals_page_router.dart';
 import 'package:pontaagro/config/router/farms_page_router.dart';
 import 'package:pontaagro/config/theme/app_colors.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => FarmsPageRouter.page,
           '/farm-animals': (context) => FarmAnimalsPageRouter.page,
+          '/add-animals': (context) => AddAnimalPageRouter.page,
         },
       ),
     );
