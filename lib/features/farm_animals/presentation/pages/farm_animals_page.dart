@@ -158,7 +158,14 @@ class _FarmAnimalsPageState
                           );
           }),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () async {
+          await Navigator.of(context).pushNamed(
+            '/add-animals',
+            arguments: {
+              'farm': widget.farm,
+            },
+          );
+        },
         label: const Text('Animal'),
         icon: const Icon(Icons.add),
       ),
