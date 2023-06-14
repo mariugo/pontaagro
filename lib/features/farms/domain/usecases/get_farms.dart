@@ -10,7 +10,7 @@ class GetFarmsUseCase implements UseCase<List<FarmsModel>, void> {
   });
 
   @override
-  Future<List<FarmsModel>> call(void params) {
-    return repository.getFarms();
+  Future<List<FarmsModel>> call(void params) async {
+    return await repository.getFarms();
   }
 }

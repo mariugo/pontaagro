@@ -9,7 +9,7 @@ class DeleteFarmUseCase implements UseCase<int, int> {
   });
 
   @override
-  Future<int> call(int params) {
-    return repository.deleteFarm(params);
+  Future<int> call(int params) async {
+    return await repository.deleteFarm(params);
   }
 }

@@ -10,7 +10,7 @@ class UpdateFarmUseCase implements UseCase<int, FarmsModel> {
   });
 
   @override
-  Future<int> call(FarmsModel params) {
-    return repository.updateFarm(params);
+  Future<int> call(FarmsModel params) async {
+    return await repository.updateFarm(params);
   }
 }
