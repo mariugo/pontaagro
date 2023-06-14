@@ -5,7 +5,7 @@ class AnimalForm extends StatelessWidget {
   final GlobalKey formKey;
   final TextEditingController animalNameController;
   final TextEditingController tagController;
-  final Future<void> Function() onSave;
+  final void Function() onSave;
   final bool canCancel;
 
   const AnimalForm({
