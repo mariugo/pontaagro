@@ -17,7 +17,8 @@ void main() {
     farmId: 1,
     tag: '123456789123456',
   );
-  List<AnimalsModel> animalsModel = List.generate(10, (index) => animalModel);
+  List<AnimalsModel> animalsModelList =
+      List.generate(10, (index) => animalModel);
   late Database database;
   late MockAnimalsRepositoryImpl mockAnimalsRepositoryImpl;
 
@@ -27,11 +28,11 @@ void main() {
     mockAnimalsRepositoryImpl = MockAnimalsRepositoryImpl();
     await database.execute(animalTableScript);
     when(mockAnimalsRepositoryImpl.getAnimals(1))
-        .thenAnswer((_) async => animalsModel);
+        .thenAnswer((_) async => animalsModelList);
     when(mockAnimalsRepositoryImpl.deleteAnimal(1)).thenAnswer((_) async => 1);
     when(mockAnimalsRepositoryImpl.updateAnimal(animalModel))
         .thenAnswer((_) async => 1);
-    when(mockAnimalsRepositoryImpl.createAnimalList(animalsModel))
+    when(mockAnimalsRepositoryImpl.createAnimalList(animalsModelList))
         .thenAnswer((_) async => true);
   });
 
@@ -41,7 +42,7 @@ void main() {
 
   test('Should return a list of animals', () async {
     final result = await mockAnimalsRepositoryImpl.getAnimals(1);
-    expect(result, animalsModel);
+    expect(result, animalsModelList);
   });
   test('Should return a list of 10 animals', () async {
     final result = await mockAnimalsRepositoryImpl.getAnimals(1);
@@ -50,7 +51,7 @@ void main() {
 
   test('Should create a list of animals', () async {
     final result =
-        await mockAnimalsRepositoryImpl.createAnimalList(animalsModel);
+        await mockAnimalsRepositoryImpl.createAnimalList(animalsModelList);
     expect(result, true);
   });
 
@@ -66,12 +67,12 @@ void main() {
 
   test('Should return DbException when create farm', () async {
     void mockDeleteError() {
-      when(mockAnimalsRepositoryImpl.createAnimalList(animalsModel))
+      when(mockAnimalsRepositoryImpl.createAnimalList(animalsModelList))
           .thenThrow(const DbException(message: 'Error'));
     }
 
     mockDeleteError();
-    expect(() => mockAnimalsRepositoryImpl.createAnimalList(animalsModel),
+    expect(() => mockAnimalsRepositoryImpl.createAnimalList(animalsModelList),
         throwsA(const DbException(message: 'Error')));
   });
 
