@@ -6,7 +6,7 @@ import 'package:pontaagro/features/farm_animals/data/models/animals_model.dart';
 class AnimalTile extends StatelessWidget {
   final AnimalsModel animal;
   final Future<void> Function() onDelete;
-  final Future<void> Function()? onEdit;
+  final void Function()? onEdit;
   final bool canEdit;
 
   const AnimalTile({
