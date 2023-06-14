@@ -18,7 +18,14 @@ class FarmTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () async {
+        await Navigator.of(context).pushNamed(
+          '/farm-animals',
+          arguments: {
+            'farm': farm,
+          },
+        );
+      },
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).colorScheme.primary,
