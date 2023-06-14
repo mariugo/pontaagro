@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:pontaagro/features/animals/data/models/animals_model.dart';
-import 'package:pontaagro/features/animals/presentation/widgets/animal_tile.dart';
+import 'package:pontaagro/features/farm_animals/data/models/animals_model.dart';
+import 'package:pontaagro/features/farm_animals/presentation/widgets/animal_tile.dart';
 
-class AnimalsPage extends StatefulWidget {
-  const AnimalsPage({super.key});
+class FarmAnimalsPage extends StatefulWidget {
+  const FarmAnimalsPage({super.key});
 
   @override
-  State<AnimalsPage> createState() => _AnimalsPageState();
+  State<FarmAnimalsPage> createState() => _FarmAnimalsPageState();
 }
 
-class _AnimalsPageState extends State<AnimalsPage> {
+class _FarmAnimalsPageState extends State<FarmAnimalsPage> {
   final animals = [
     const AnimalsModel(
       name: 'Vaca',

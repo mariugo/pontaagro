@@ -1,4 +1,4 @@
-import 'package:pontaagro/features/animals/domain/entities/animals.dart';
+import 'package:pontaagro/features/farm_animals/domain/entities/animals.dart';
 
 class AnimalsModel extends Animals {
   const AnimalsModel({
