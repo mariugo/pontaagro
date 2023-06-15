@@ -182,6 +182,7 @@ class _AddAnimalPageState
                                                 .validate()) {
                                               controller
                                                   .updateAnimalFromList(
+                                                    state.animals[index].name,
                                                     AnimalsModel(
                                                       name: animalNameController
                                                           .text,
@@ -193,7 +194,7 @@ class _AddAnimalPageState
                                                         animalNameController
                                                             .clear(),
                                                         tagController.clear(),
-                                                        Navigator.pop(context),
+                                                        context.pop(),
                                                       });
                                             }
                                           },
