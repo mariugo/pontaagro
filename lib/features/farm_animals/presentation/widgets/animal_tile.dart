@@ -19,66 +19,67 @@ class AnimalTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          child: FaIcon(
-            FontAwesomeIcons.cow,
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        child: FaIcon(
+          FontAwesomeIcons.cow,
+          color: Theme.of(context).colorScheme.onPrimary,
         ),
-        title: Text(
-          animal.name,
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium!
-              .copyWith(color: Theme.of(context).colorScheme.primary),
-        ),
-        subtitle: Text(
-          'TAG: ${animal.tag}',
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: Theme.of(context).colorScheme.onPrimaryContainer),
-        ),
-        trailing: canEdit
-            ? SizedBox(
-                width: context.percentWidth(0.4),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: onEdit,
-                      child: Text(
-                        'Editar',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    TextButton(
-                      onPressed: onDelete,
-                      child: Text(
-                        'Excluir',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: Theme.of(context).colorScheme.error),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : TextButton(
-                onPressed: onDelete,
-                child: Text(
-                  'Excluir',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall!
-                      .copyWith(color: Theme.of(context).colorScheme.error),
-                ),
-              ),
       ),
+      title: Text(
+        animal.name,
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(color: Theme.of(context).colorScheme.primary),
+      ),
+      subtitle: Text(
+        'TAG: ${animal.tag}',
+        style: Theme.of(context)
+            .textTheme
+            .bodySmall!
+            .copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),
+      ),
+      trailing: canEdit
+          ? SizedBox(
+              width: context.percentWidth(0.4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: onEdit,
+                    child: Text(
+                      'Editar',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  TextButton(
+                    onPressed: onDelete,
+                    child: Text(
+                      'Excluir',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: Theme.of(context).colorScheme.error),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : TextButton(
+              onPressed: onDelete,
+              child: Text(
+                'Excluir',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .copyWith(color: Theme.of(context).colorScheme.error),
+              ),
+            ),
     );
   }
 }
