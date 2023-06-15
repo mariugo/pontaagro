@@ -5,17 +5,19 @@ import 'package:pontaagro/features/farm_animals/presentation/controller/add_anim
 
 class AddAnimalsController extends Cubit<AddAnimalsState> {
   final CreateAnimalsListUseCase createAnimalsListUseCase;
+  List<AnimalsModel> animalsList = [];
 
-  AddAnimalsController(
-    this.createAnimalsListUseCase,
-  ) : super(AddAnimalsState.initial());
+  AddAnimalsController({
+    required this.createAnimalsListUseCase,
+  }) : super(const AddAnimalsState.initial());
 
   void addAnimalToList(AnimalsModel animal) {
     emit(state.copyWith(status: AddAnimalsStatus.loading));
     try {
-      state.animals.add(animal);
+      animalsList = [...state.animals];
+      animalsList.add(animal);
       emit(state.copyWith(
-          status: AddAnimalsStatus.success, animals: state.animals));
+          status: AddAnimalsStatus.success, animals: animalsList));
     } catch (_) {
       emit(state.copyWith(status: AddAnimalsStatus.error, animals: []));
     }
@@ -24,7 +26,8 @@ class AddAnimalsController extends Cubit<AddAnimalsState> {
   void removeAnimalFromList(AnimalsModel animal) {
     emit(state.copyWith(status: AddAnimalsStatus.loading));
     try {
-      state.animals.remove(animal);
+      animalsList = [...state.animals];
+      animalsList.remove(animal);
       emit(state.copyWith(
           status: AddAnimalsStatus.success, animals: state.animals));
     } catch (_) {
@@ -35,10 +38,12 @@ class AddAnimalsController extends Cubit<AddAnimalsState> {
   Future<void> updateAnimalFromList(AnimalsModel animal) async {
     emit(state.copyWith(status: AddAnimalsStatus.loading));
     try {
-      state.animals.removeWhere((element) => element.id == animal.id);
-      state.animals.add(animal);
+      animalsList = [...state.animals];
+
+      animalsList.removeWhere((element) => element.id == animal.id);
+      animalsList.add(animal);
       emit(state.copyWith(
-          status: AddAnimalsStatus.success, animals: state.animals));
+          status: AddAnimalsStatus.success, animals: animalsList));
     } catch (_) {
       emit(state.copyWith(status: AddAnimalsStatus.error, animals: []));
     }

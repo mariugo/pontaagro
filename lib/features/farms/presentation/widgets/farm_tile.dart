@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pontaagro/core/extensions/size_extensions.dart';
 import 'package:pontaagro/features/farms/data/models/farms_model.dart';
 
@@ -18,13 +19,8 @@ class FarmTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () async {
-        await Navigator.of(context).pushNamed(
-          '/farm-animals',
-          arguments: {
-            'farm': farm,
-          },
-        );
+      onTap: () {
+        context.go('/farm-animals', extra: farm);
       },
       child: ListTile(
         leading: CircleAvatar(

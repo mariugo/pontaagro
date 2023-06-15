@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 mixin Loader<T extends StatefulWidget> on State<T> {
   var isOpen = true;
@@ -16,7 +17,7 @@ mixin Loader<T extends StatefulWidget> on State<T> {
   void hideLoader() {
     if (!isOpen) {
       isOpen = true;
-      Navigator.of(context).pop();
+      context.pop();
     }
   }
 }

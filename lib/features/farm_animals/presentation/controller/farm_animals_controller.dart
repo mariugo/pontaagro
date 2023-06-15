@@ -7,8 +7,10 @@ class FarmAnimalsController extends Cubit<FarmAnimalsState> {
   final GetAnimalsListUseCase getAnimalsListUseCase;
   final DeleteAnimalUseCase deleteAnimalUseCase;
 
-  FarmAnimalsController(this.getAnimalsListUseCase, this.deleteAnimalUseCase)
-      : super(const FarmAnimalsState.initial());
+  FarmAnimalsController({
+    required this.getAnimalsListUseCase,
+    required this.deleteAnimalUseCase,
+  }) : super(const FarmAnimalsState.initial());
 
   Future<void> getAnimalList(int farmId) async {
     emit(state.copyWith(status: FarmAnimalsStatus.loading));

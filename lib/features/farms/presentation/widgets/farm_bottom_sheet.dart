@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pontaagro/core/extensions/size_extensions.dart';
 
 class FarmBottomSheet extends StatelessWidget {
@@ -77,7 +78,7 @@ class FarmBottomSheet extends StatelessWidget {
                           context.percentHeight(0.03)),
                       backgroundColor: Theme.of(context).colorScheme.onPrimary,
                     ),
-                    onPressed: Navigator.of(context).pop,
+                    onPressed: () => context.pop(),
                     child: Text(
                       'Cancelar',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pontaagro/core/extensions/size_extensions.dart';
 import 'package:pontaagro/features/base_state.dart';
 import 'package:pontaagro/features/farm_animals/presentation/controller/farm_animals_controller.dart';
@@ -35,7 +37,7 @@ class _FarmAnimalsPageState
       appBar: AppBar(
         leading: BackButton(
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/');
+            context.go('/');
           },
         ),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
@@ -73,9 +75,7 @@ class _FarmAnimalsPageState
                 );
               } else {
                 if (state.animals.isEmpty) {
-                  context
-                      .read<FarmsController>()
-                      .updateQuantity(0, widget.farm);
+                  GetIt.I.get<FarmsController>().updateQuantity(0, widget.farm);
                   return Center(
                     child: Text(
                       'Nenhum animal cadastrado',
@@ -83,8 +83,8 @@ class _FarmAnimalsPageState
                     ),
                   );
                 } else {
-                  context
-                      .read<FarmsController>()
+                  GetIt.I
+                      .get<FarmsController>()
                       .updateQuantity(state.animals.length, widget.farm);
                   return Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -122,8 +122,8 @@ class _FarmAnimalsPageState
                                 ),
                                 TextButton(
                                   onPressed: () async {
-                                    context
-                                        .read<FarmsController>()
+                                    GetIt.I
+                                        .get<FarmsController>()
                                         .updateQuantity(
                                             state.animals.length - 1,
                                             widget.farm);
@@ -155,13 +155,8 @@ class _FarmAnimalsPageState
             }
           }),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          await Navigator.of(context).pushNamed(
-            '/add-animals',
-            arguments: {
-              'farm': widget.farm,
-            },
-          );
+        onPressed: () {
+          context.go('/add-animals', extra: widget.farm);
         },
         label: const Text('Animal'),
         icon: const Icon(Icons.add),

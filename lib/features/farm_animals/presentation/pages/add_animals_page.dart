@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pontaagro/core/extensions/size_extensions.dart';
 import 'package:pontaagro/features/base_state.dart';
 import 'package:pontaagro/features/farm_animals/data/models/animals_model.dart';
@@ -58,6 +60,11 @@ class _AddAnimalPageState
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+            leading: BackButton(
+              onPressed: () {
+                context.go('/farm-animals', extra: widget.farm);
+              },
+            ),
             backgroundColor: Theme.of(context).colorScheme.primary,
             title: Text(
               '${widget.farm.name} >> Adicionar Animal',
@@ -265,16 +272,11 @@ class _AddAnimalPageState
                   if (state.animals.isNotEmpty) {
                     await controller.createAnimalsList(state.animals).then(
                       (_) async {
-                        await context
-                            .read<FarmsController>()
+                        await GetIt.I
+                            .get<FarmsController>()
                             .updateQuantity(state.animals.length, widget.farm)
-                            .then(
-                              (value) =>
-                                  Navigator.of(context).pushReplacementNamed(
-                                '/farm-animals',
-                                arguments: {'farm': widget.farm},
-                              ),
-                            );
+                            .then((_) => context.go('/farm-animals',
+                                extra: widget.farm));
                       },
                     );
                   } else {

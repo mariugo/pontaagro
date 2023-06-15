@@ -12,9 +12,12 @@ class FarmsController extends Cubit<FarmsState> {
   final DeleteFarmUseCase deleteFarmUseCase;
   final UpdateFarmUseCase updateFarmUseCase;
 
-  FarmsController(this.createFarmUseCase, this.deleteFarmUseCase,
-      this.getFarmsUseCase, this.updateFarmUseCase)
-      : super(const FarmsState.initial());
+  FarmsController({
+    required this.createFarmUseCase,
+    required this.deleteFarmUseCase,
+    required this.getFarmsUseCase,
+    required this.updateFarmUseCase,
+  }) : super(const FarmsState.initial());
 
   Future<void> getFarms() async {
     emit(state.copyWith(status: FarmStatus.loading));
@@ -60,9 +63,7 @@ class FarmsController extends Cubit<FarmsState> {
   }
 
   Future<void> updateQuantity(int num, FarmsModel farm) async {
-    print('=========== UPDATE QUANTITY =======OLDFARM============== $farm');
     var newFarm = FarmsModel(name: farm.name, quantity: num, id: farm.id);
-    print('=========== UPDATE QUANTITY =======NEWFARM============== $newFarm');
     try {
       await updateFarm(newFarm);
       emit(state.copyWith(status: FarmStatus.success));

@@ -23,8 +23,3 @@ const String animalTableScript = '''
 const String selectFarmTableScript = '''
     SELECT * FROM $farmTable
   ''';
-// const String selectFarmTableScript = '''
-//     SELECT farm_id, farm_name, quantity.COUNT as COUNT from $farmTable
-//       LEFT JOIN (SELECT animal_farm_id, COUNT(*) as COUNT from $animalTable GROUP BY animal_farm_id) quantity 
-//       ON farm_id = animal_farm_id
-//   ''';
