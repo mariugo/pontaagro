@@ -8,9 +8,12 @@ void main() {
     'animal_name': 'Vaca 1',
     'animal_tag': '123456789123456'
   };
+  const animal =
+      AnimalsModel(id: 1, farmId: 1, name: 'Vaca 1', tag: '123456789123456');
   final animalModel = AnimalsModel.fromJson(json);
+  animal.toJson();
 
-  group('AnimalModel', () {
+  group('AnimalModelFromJson', () {
     test('should be an instance of AnimalsModel', () {
       expect(animalModel, isA<AnimalsModel>());
     });
@@ -28,6 +31,26 @@ void main() {
     });
     test('should have animal_tag of 15 length', () {
       expect(animalModel.tag.length, 15);
+    });
+  });
+  group('AnimalModelToJson', () {
+    test('should be an instance of AnimalsModel', () {
+      expect(animal, isA<AnimalsModel>());
+    });
+    test('should have a animal_id of 1', () {
+      expect(animal.id, 1);
+    });
+    test('should have animal_farm_id of 1', () {
+      expect(animal.farmId, 1);
+    });
+    test('should have animal_name of Vaca 1', () {
+      expect(animal.name, 'Vaca 1');
+    });
+    test('should have animal_tag of 123456789123456', () {
+      expect(animal.tag, '123456789123456');
+    });
+    test('should have animal_tag of 15 length', () {
+      expect(animal.tag.length, 15);
     });
   });
 }
