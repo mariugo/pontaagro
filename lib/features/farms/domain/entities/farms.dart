@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-class Farms extends Equatable {
+class Farms {
   final int? id;
   final String name;
   final int quantity;
@@ -10,7 +8,4 @@ class Farms extends Equatable {
     required this.name,
     required this.quantity,
   });
-
-  @override
-  List<Object?> get props => [id, name, quantity];
 }

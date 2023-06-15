@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-class Animals extends Equatable {
+class Animals {
   final int? id;
   final int farmId;
   final String name;
@@ -12,7 +10,4 @@ class Animals extends Equatable {
     required this.name,
     required this.tag,
   });
-
-  @override
-  List<Object?> get props => [id, farmId, name, tag];
 }
