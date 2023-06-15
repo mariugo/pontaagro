@@ -8,7 +8,7 @@ class Farms extends Equatable {
   const Farms({
     this.id,
     required this.name,
-    this.quantity = 0,
+    required this.quantity,
   });
 
   @override

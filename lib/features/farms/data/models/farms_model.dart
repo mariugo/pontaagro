@@ -4,7 +4,7 @@ class FarmsModel extends Farms {
   const FarmsModel({
     super.id,
     required super.name,
-    super.quantity = 0,
+    required super.quantity,
   });
 
   factory FarmsModel.fromJson(Map<String, dynamic> json) => FarmsModel(
@@ -16,5 +16,6 @@ class FarmsModel extends Farms {
   Map<String, dynamic> toJson() => {
         'farm_id': id,
         'farm_name': name,
+        'quantity': quantity,
       };
 }

@@ -4,7 +4,8 @@ const String animalTable = 'ANIMAL';
 const String farmTableScript = '''
     CREATE TABLE $farmTable (
       farm_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      farm_name TEXT NOT NULL
+      farm_name TEXT NOT NULL,
+      quantity INTEGER
     )
   ''';
 
@@ -20,7 +21,10 @@ const String animalTableScript = '''
   ''';
 
 const String selectFarmTableScript = '''
-    SELECT farm_id, farm_name, quantity.COUNT as COUNT from $farmTable
-      LEFT JOIN (SELECT animal_farm_id, COUNT(*) as COUNT from $animalTable GROUP BY animal_farm_id) quantity 
-      ON farm_id = animal_farm_id
+    SELECT * FROM $farmTable
   ''';
+// const String selectFarmTableScript = '''
+//     SELECT farm_id, farm_name, quantity.COUNT as COUNT from $farmTable
+//       LEFT JOIN (SELECT animal_farm_id, COUNT(*) as COUNT from $animalTable GROUP BY animal_farm_id) quantity 
+//       ON farm_id = animal_farm_id
+//   ''';

@@ -105,7 +105,9 @@ class _FarmsPageState extends BaseState<FarmsPage, FarmsController> {
                                             await controller
                                                 .updateFarm(FarmsModel(
                                                     name: editFarmName.text,
-                                                    id: state.farms[index].id!))
+                                                    id: state.farms[index].id!,
+                                                    quantity: state
+                                                        .farms[index].quantity))
                                                 .then((_) {
                                               editFarmName.clear();
                                               Navigator.pop(context);

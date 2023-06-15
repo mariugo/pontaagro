@@ -33,6 +33,11 @@ class _FarmAnimalsPageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/');
+          },
+        ),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         title: Text(
           '${widget.farm.name} >> Animais ',

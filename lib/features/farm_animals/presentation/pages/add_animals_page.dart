@@ -8,6 +8,7 @@ import 'package:pontaagro/features/farm_animals/presentation/controller/add_anim
 import 'package:pontaagro/features/farm_animals/presentation/widgets/animal_form.dart';
 import 'package:pontaagro/features/farm_animals/presentation/widgets/animal_tile.dart';
 import 'package:pontaagro/features/farms/data/models/farms_model.dart';
+import 'package:pontaagro/features/farms/presentation/controller/farms_controller.dart';
 
 class AddAnimalPage extends StatefulWidget {
   final FarmsModel farm;
@@ -33,6 +34,7 @@ class _AddAnimalPageState
     animalNameController.dispose();
     tagController.dispose();
     formKey.currentState?.dispose();
+    editFormKey.currentState?.dispose();
     super.dispose();
   }
 
@@ -259,11 +261,22 @@ class _AddAnimalPageState
                 heroTag: 'save_all',
                 backgroundColor: Theme.of(context).colorScheme.secondary,
                 foregroundColor: Theme.of(context).colorScheme.onSecondary,
-                onPressed: () {
+                onPressed: () async {
                   if (state.animals.isNotEmpty) {
-                    controller.createAnimalsList(state.animals);
-                    Navigator.of(context).pushNamed('/farm-animals',
-                        arguments: {'farm': widget.farm});
+                    await controller.createAnimalsList(state.animals).then(
+                      (_) async {
+                        await context
+                            .read<FarmsController>()
+                            .updateQuantity(state.animals.length, widget.farm)
+                            .then(
+                              (value) =>
+                                  Navigator.of(context).pushReplacementNamed(
+                                '/farm-animals',
+                                arguments: {'farm': widget.farm},
+                              ),
+                            );
+                      },
+                    );
                   } else {
                     showInfo('Nada para salvar');
                   }

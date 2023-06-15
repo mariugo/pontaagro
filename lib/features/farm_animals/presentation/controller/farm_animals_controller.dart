@@ -13,7 +13,7 @@ class FarmAnimalsController extends Cubit<FarmAnimalsState> {
   Future<void> getAnimalList(int farmId) async {
     emit(state.copyWith(status: FarmAnimalsStatus.loading));
     try {
-      final animals = await getAnimalsListUseCase(farmId);
+      final animals = await getAnimalsListUseCase.call(farmId);
       emit(state.copyWith(status: FarmAnimalsStatus.success, animals: animals));
     } catch (e) {
       emit(state.copyWith(status: FarmAnimalsStatus.error, animals: []));
@@ -23,7 +23,7 @@ class FarmAnimalsController extends Cubit<FarmAnimalsState> {
   Future<void> deleteAnimal(int animalId) async {
     emit(state.copyWith(status: FarmAnimalsStatus.loading));
     try {
-      await deleteAnimalUseCase(animalId);
+      await deleteAnimalUseCase.call(animalId);
       await getAnimalList(state.animals.first.farmId);
       emit(state.copyWith(status: FarmAnimalsStatus.success));
     } catch (e) {
